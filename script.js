@@ -22,34 +22,42 @@ const inputEmail = document.getElementById("email");
 const btnCancelar = document.getElementById("btnCancelar");
 
 // 🔐 Auth functions
-async function login() {
-  const { error } = await supabase.auth.signInWithPassword({
-    email: emailLogin.value,
-    password: senhaLogin.value,
+async function loginUsuario() {
+  const email = document.getElementById("emailLogin").value;
+  const senha = document.getElementById("senhaLogin").value;
+
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email: email,
+    password: senha
   });
 
+  const msg = document.getElementById("msgAuth");
+
   if (error) {
-    alert("Erro no login");
-    console.error(error);
+    msg.innerText = "Erro no login: " + error.message;
   } else {
-    alert("Logado com sucesso!");
-    atualizarEstadoAuth();
+    msg.innerText = "Login realizado com sucesso!";
   }
 }
 
 async function cadastrarUsuario() {
-  const { error } = await supabase.auth.signUp({
-    email: emailLogin.value,
-    password: senhaLogin.value,
+  const email = document.getElementById("emailCadastro").value;
+  const senha = document.getElementById("senhaCadastro").value;
+
+  const { data, error } = await supabase.auth.signUp({
+    email: email,
+    password: senha
   });
 
+  const msg = document.getElementById("msgAuth");
+
   if (error) {
-    alert("Erro no cadastro");
-    console.error(error);
+    msg.innerText = "Erro no cadastro: " + error.message;
   } else {
-    alert("Usuário cadastrado! Agora faça login.");
+    msg.innerText = "Cadastro realizado! Verifique seu e-mail (se exigido).";
   }
 }
+
 
 async function logout() {
   await supabase.auth.signOut();
