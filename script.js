@@ -22,7 +22,7 @@ const inputEmail = document.getElementById("email");
 const btnCancelar = document.getElementById("btnCancelar");
 
 // 🔐 Auth functions
-async function loginUsuario() {
+async function login() {
   const email = document.getElementById("emailLogin").value;
   const senha = document.getElementById("senhaLogin").value;
 
