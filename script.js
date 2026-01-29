@@ -1,7 +1,8 @@
 const SUPABASE_URL = "https://ybappbdhcchtqwadavxf.supabase.co";
 const SUPABASE_KEY = "sb_publishable_1zkkGqyF9PA_xjLAjSeebg_Gl5jBSYy";
 
-const supabaseClient = window.supabaseClient.createClient(SUPABASE_URL, SUPABASE_KEY);
+// Renomeado para evitar conflito
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // ===== AUTH =====
 async function cadastrarUsuario() {
@@ -45,7 +46,7 @@ async function login() {
 async function inserirPessoa() {
   const nome = document.getElementById("nome").value;
 
-  const { data, error } = await supabase
+  const { data, error } = await supabaseClient
     .from("pessoas")
     .insert([{ nome: nome }]);
 
@@ -82,3 +83,10 @@ async function excluirPessoa(id) {
     listarPessoas();
   }
 }
+
+// Garante que o HTML veja as funções
+window.login = login;
+window.cadastrarUsuario = cadastrarUsuario;
+window.inserirPessoa = inserirPessoa;
+window.listarPessoas = listarPessoas;
+window.excluirPessoa = excluirPessoa;
