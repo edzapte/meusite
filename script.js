@@ -1,10 +1,19 @@
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
+// 🔹 Dados do seu projeto
 const SUPABASE_URL = "https://ybappbdhcchtqwadavxf.supabase.co";
 const SUPABASE_KEY = "sb_publishable_1zkkGqyF9PA_xjLAjSeebg_Gl5jBSYy";
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
+// 🔐 Auth elements
+const emailLogin = document.getElementById("emailLogin");
+const senhaLogin = document.getElementById("senhaLogin");
+const btnLogin = document.getElementById("btnLogin");
+const btnCadastro = document.getElementById("btnCadastro");
+const btnLogout = document.getElementById("btnLogout");
+
+// 📋 CRUD elements
 const form = document.getElementById("form");
 const lista = document.getElementById("lista");
 const inputId = document.getElementById("id");
@@ -12,6 +21,46 @@ const inputNome = document.getElementById("nome");
 const inputEmail = document.getElementById("email");
 const btnCancelar = document.getElementById("btnCancelar");
 
+// 🔐 Auth functions
+async function login() {
+  const { error } = await supabase.auth.signInWithPassword({
+    email: emailLogin.value,
+    password: senhaLogin.value,
+  });
+
+  if (error) {
+    alert("Erro no login");
+    console.error(error);
+  } else {
+    alert("Logado com sucesso!");
+    atualizarEstadoAuth();
+  }
+}
+
+async function cadastrarUsuario() {
+  const { error } = await supabase.auth.signUp({
+    email: emailLogin.value,
+    password: senhaLogin.value,
+  });
+
+  if (error) {
+    alert("Erro no cadastro");
+    console.error(error);
+  } else {
+    alert("Usuário cadastrado! Agora faça login.");
+  }
+}
+
+async function logout() {
+  await supabase.auth.signOut();
+  atualizarEstadoAuth();
+}
+
+btnLogin.onclick = login;
+btnCadastro.onclick = cadastrarUsuario;
+btnLogout.onclick = logout;
+
+// 📋 CRUD functions
 async function carregar() {
   const { data, error } = await supabase
     .from("pessoas")
@@ -126,4 +175,21 @@ btnCancelar.addEventListener("click", () => {
   btnCancelar.style.display = "none";
 });
 
-carregar();
+// 🔁 Estado da autenticação
+async function atualizarEstadoAuth() {
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (user) {
+    btnLogout.style.display = "inline";
+    btnLogin.style.display = "none";
+    btnCadastro.style.display = "none";
+    carregar();
+  } else {
+    btnLogout.style.display = "none";
+    btnLogin.style.display = "inline";
+    btnCadastro.style.display = "inline";
+    lista.innerHTML = "";
+  }
+}
+
+atualizarEstadoAuth();
