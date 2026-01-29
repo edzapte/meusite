@@ -1,36 +1,34 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <title>CRUD com Login (Supabase)</title>
+  <meta charset="UTF-8" />
+  <title>Teste Supabase + GitHub Pages</title>
 </head>
 <body>
-  <h1>Cadastro de Pessoas</h1>
+  <h1>Supabase + GitHub Pages</h1>
 
-  <!-- 🔐 Autenticação -->
-  <h2>Login / Cadastro</h2>
-  <div id="auth">
-    <input id="emailLogin" placeholder="Email">
-    <input id="senhaLogin" type="password" placeholder="Senha">
-    <button id="btnLogin">Entrar</button>
-    <button id="btnCadastro">Cadastrar</button>
-    <button id="btnLogout" style="display:none;">Sair</button>
-  </div>
+  <h2>Cadastro</h2>
+  <input id="emailCadastro" placeholder="Email" />
+  <input id="senhaCadastro" type="password" placeholder="Senha" />
+  <button onclick="cadastrarUsuario()">Cadastrar</button>
 
-  <hr>
+  <h2>Login</h2>
+  <input id="emailLogin" placeholder="Email" />
+  <input id="senhaLogin" type="password" placeholder="Senha" />
+  <button onclick="login()">Login</button>
 
-  <!-- 📋 Formulário CRUD -->
-  <form id="form">
-    <input id="id" type="hidden">
-    <input id="nome" placeholder="Nome" required>
-    <input id="email" placeholder="Email da pessoa" required>
-    <button id="btnSalvar">Salvar</button>
-    <button type="button" id="btnCancelar" style="display:none;">Cancelar</button>
-  </form>
+  <p id="msgAuth"></p>
 
-  <h2>Registros</h2>
+  <hr />
+
+  <h2>Inserir Pessoa</h2>
+  <input id="nome" placeholder="Nome" />
+  <button onclick="inserirPessoa()">Inserir</button>
+
+  <h2>Lista</h2>
   <ul id="lista"></ul>
 
-  <script type="module" src="script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="script.js"></script>
 </body>
 </html>
