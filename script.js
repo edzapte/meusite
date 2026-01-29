@@ -1,14 +1,14 @@
 const SUPABASE_URL = "https://ybappbdhcchtqwadavxf.supabase.co";
 const SUPABASE_KEY = "sb_publishable_1zkkGqyF9PA_xjLAjSeebg_Gl5jBSYy";
 
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabaseClient = window.supabaseClient.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // ===== AUTH =====
 async function cadastrarUsuario() {
   const email = document.getElementById("emailCadastro").value;
   const senha = document.getElementById("senhaCadastro").value;
 
-  const { data, error } = await supabase.auth.signUp({
+  const { data, error } = await supabaseClient.auth.signUp({
     email: email,
     password: senha,
   });
@@ -26,7 +26,7 @@ async function login() {
   const email = document.getElementById("emailLogin").value;
   const senha = document.getElementById("senhaLogin").value;
 
-  const { data, error } = await supabase.auth.signInWithPassword({
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
     email: email,
     password: senha,
   });
@@ -57,7 +57,7 @@ async function inserirPessoa() {
 }
 
 async function listarPessoas() {
-  const { data, error } = await supabase.from("pessoas").select("*");
+  const { data, error } = await supabaseClient.from("pessoas").select("*");
 
   const lista = document.getElementById("lista");
   lista.innerHTML = "";
@@ -74,7 +74,7 @@ async function listarPessoas() {
 }
 
 async function excluirPessoa(id) {
-  const { error } = await supabase.from("pessoas").delete().eq("id", id);
+  const { error } = await supabaseClient.from("pessoas").delete().eq("id", id);
 
   if (error) {
     alert("Erro ao excluir: " + error.message);
